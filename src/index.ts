@@ -1,16 +1,7 @@
-import { AxiosError } from 'axios'
-import fs from 'fs'
-import ini from 'ini'
-import Allegro from './exporters/Allegro'
+import AllegroSDK from './exporters/AllegroSDK'
 
 Promise.resolve().then(async () => {
-  const allegro = new Allegro()
+  const sdk = new AllegroSDK()
 
-  try {
-    await allegro.authorizeWithCode()
-  } catch (e) {
-    const err: AxiosError = e
-
-    console.log(err.response!.data)
-  }
+  sdk.getOfferById()
 })

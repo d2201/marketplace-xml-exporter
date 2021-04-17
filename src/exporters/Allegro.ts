@@ -6,16 +6,20 @@ import { Maybe } from '../types'
 
 const ONE_SECOND = 1000
 
-const SCOPES = [
-  'allegro:api:sale:offers:read'
-].join('%20')
+// const SCOPES = ['allegro:api:sale:offers:read'].join('%20') TODO use it
 
 const sleep = promisify(setTimeout)
 
 export default class Allegro extends ApiBase {
   private clientId: string
+
   private clientSecret: string
+
+  private refreshToken: string | undefined
+
   private authUrl: string
+
+  private config: any
 
   constructor() {
     const config = ini.parse(fs.readFileSync('config.ini', 'utf-8'))
@@ -27,17 +31,46 @@ export default class Allegro extends ApiBase {
       sleepDurationOnError: {
         network: 30 * ONE_SECOND,
         rateLimit: 60 * ONE_SECOND,
-        serviceUnavailable: 10 * ONE_SECOND
+        serviceUnavailable: 10 * ONE_SECOND,
       },
-      repeatOnUnknownError: false
+      repeatOnUnknownError: false,
     })
 
+    this.config = config
     this.clientId = config.allegro.clientId
     this.clientSecret = config.allegro.clientSecret
+    this.refreshToken = config.allegro.refreshToken
     this.authUrl = config.allegro.authorizationUrl
   }
 
-  async authorizeWithCode() {
+  protected async authorize() {
+    let token: TokenResponse | undefined
+
+    if (this.refreshToken) {
+      const result = await this.getAccessTokenFromRefreshToken()
+
+      if (result) {
+        token = result
+      }
+    }
+
+    if (!token) {
+      token = await this.getAccessTokenFromDeviceFlow()
+    }
+
+    this.saveRefreshTokenInFile(token.refresh_token)
+    this.authorizationHeaders = {
+      Authorization: `Bearer ${token.access_token}`,
+    }
+  }
+
+  private saveRefreshTokenInFile(refreshToken: string) {
+    this.config.allegro.refreshToken = refreshToken
+
+    fs.writeFileSync('config.ini', ini.stringify(this.config))
+  }
+
+  private async getAccessTokenFromDeviceFlow(): Promise<TokenResponse> {
     const params = new URLSearchParams()
 
     params.append('client_id', this.clientId)
@@ -48,26 +81,28 @@ export default class Allegro extends ApiBase {
       url: this.authUrl,
       auth: {
         username: this.clientId,
-        password: this.clientSecret
+        password: this.clientSecret,
       },
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      data: params
+      data: params,
     })
 
-    while (true) {
+    let token: TokenResponse | undefined
+
+    while (!token) {
       await sleep(result.interval * ONE_SECOND)
 
-      const token = await this.getAccessTokenForDeviceCode(result.device_code)
+      const response = await this.getAccessTokenForDeviceCode(result.device_code)
 
-      if (!token) {
-        continue
-      }
+      token = response
     }
+
+    return token
   }
 
-  async getAccessTokenForDeviceCode(deviceCode: string): Maybe<TokenResponse> {
+  private async getAccessTokenForDeviceCode(deviceCode: string): Maybe<TokenResponse> {
     const params = new URLSearchParams()
 
     params.append('grant_type', 'urn:ietf:params:oauth:grant-type:device_code')
@@ -79,21 +114,42 @@ export default class Allegro extends ApiBase {
         url: this.authUrl,
         path: '/auth/oauth/token',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         auth: {
           username: this.clientId,
-          password: this.clientSecret
+          password: this.clientSecret,
         },
-        data: params
+        data: params,
       })
 
       return result
-    } catch (e) {}
+    } catch (e) {
+      // TODO
+    }
   }
 
-  protected async authorize() {
-    
+  private async getAccessTokenFromRefreshToken(): Maybe<TokenResponse> {
+    const params = new URLSearchParams()
+
+    params.append('grant_type', 'refresh_token')
+    params.append('refresh_token', this.refreshToken!)
+
+    try {
+      const result = await this.request<TokenResponse>({
+        url: this.authUrl,
+        path: '/auth/oauth/token',
+        method: 'POST',
+        auth: {
+          username: this.clientId,
+          password: this.clientSecret,
+        },
+      })
+
+      return result
+    } catch (e) {
+      // TODO
+    }
   }
 }
 
