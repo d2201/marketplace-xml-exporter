@@ -66,6 +66,8 @@ module.exports = {
     'no-prototype-builtins': 'off',
     'lines-between-class-members': 'off',
     'no-restricted-syntax': 'off',
+    'no-await-in-loop': 'off',
+    'no-continue': 'off',
     // ESLint bug https://github.com/prettier/prettier-eslint/issues/182
     'implicit-arrow-linebreak': 'off',
     'no-param-reassign': [
