@@ -96,15 +96,17 @@ type ManualCompatibilityList = {
   items: Array<CompatibilityListItem>
 }
 
-type CompatibilityListItem = {
-  type: 'TEXT'
-  text: string
-} | {
-  type: 'ID'
-  id: string
-  text?: string
-  additionalInfo?: any[] // TODO fill it
-}
+type CompatibilityListItem =
+  | {
+      type: 'TEXT'
+      text: string
+    }
+  | {
+      type: 'ID'
+      id: string
+      text?: string
+      additionalInfo?: any[] // TODO fill it
+    }
 
 type ProductBasedCompatibilityList = {
   type: 'PRODUCT_BASED'
