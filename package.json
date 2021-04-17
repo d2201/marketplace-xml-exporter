@@ -1,5 +1,5 @@
 {
-  "name": "xml-exporter",
+  "name": "marketplace-xml-exporter",
   "version": "1.0.0",
   "description": "Tool for exporting data from marketplaces to .xml",
   "dependencies": {
