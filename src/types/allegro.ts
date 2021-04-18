@@ -39,7 +39,7 @@ export type OfferListingResponse = {
   totalCount: number
 }
 
-type OfferListing = {
+export type OfferListing = {
   id: string // TODO fast fetching for small (price/stock) XML exports
 }
 
