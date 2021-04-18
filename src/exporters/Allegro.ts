@@ -3,6 +3,7 @@ import fs from 'fs'
 import ini from 'ini'
 import { promisify } from 'util'
 import { Maybe } from '../types'
+import logger from '../logger'
 
 const ONE_SECOND = 1000
 
@@ -36,6 +37,10 @@ export default class Allegro extends ApiBase {
       repeatOnUnknownError: false,
     })
 
+    this.defaultHeaders = {
+      'Content-Type': 'application/vnd.allegro.public.v1+json',
+      'Accept': 'application/vnd.allegro.public.v1+json',
+    }
     this.config = config
     this.clientId = config.allegro.clientId
     this.clientSecret = config.allegro.clientSecret
@@ -44,9 +49,12 @@ export default class Allegro extends ApiBase {
   }
 
   protected async authorize() {
+    logger.debug('Authorization step')
+
     let token: TokenResponse | undefined
 
     if (this.refreshToken) {
+      logger.debug('Authorizing through refresh token')
       const result = await this.getAccessTokenFromRefreshToken()
 
       if (result) {
@@ -55,6 +63,7 @@ export default class Allegro extends ApiBase {
     }
 
     if (!token) {
+      logger.debug('Authorizing via device flow')
       token = await this.getAccessTokenFromDeviceFlow()
     }
 
@@ -63,6 +72,8 @@ export default class Allegro extends ApiBase {
       Authorization: `Bearer ${token.access_token}`,
     }
     this.isAuthorized = true
+
+    logger.info('Successfully authorized')
   }
 
   private saveRefreshTokenInFile(refreshToken: string) {
@@ -88,12 +99,16 @@ export default class Allegro extends ApiBase {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       data: params,
+      requireAuthorization: false,
     })
+
+    logger.warn(`Authorize app by going to this link: ${result.verification_uri_complete}`)
 
     let token: TokenResponse | undefined
 
     while (!token) {
       await sleep(result.interval * ONE_SECOND)
+      logger.info('Checking authorization')
 
       const response = await this.getAccessTokenForDeviceCode(result.device_code)
 
@@ -122,6 +137,7 @@ export default class Allegro extends ApiBase {
           password: this.clientSecret,
         },
         data: params,
+        requireAuthorization: false,
       })
 
       return result
@@ -145,6 +161,11 @@ export default class Allegro extends ApiBase {
           username: this.clientId,
           password: this.clientSecret,
         },
+        requireAuthorization: false,
+        data: params,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
       })
 
       return result
