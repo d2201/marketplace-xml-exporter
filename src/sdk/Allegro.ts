@@ -20,10 +20,10 @@ export default class Allegro extends ApiBase {
 
   private authUrl: string
 
-  private config: any
+  private config: typeof global.config
 
   constructor() {
-    const config = ini.parse(fs.readFileSync('config.ini', 'utf-8'))
+    const {config} = global
 
     super({
       requestsRateLimit: +config.allegro.rateLimit,

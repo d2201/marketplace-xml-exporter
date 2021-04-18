@@ -1,3 +1,4 @@
+import './loadConfig'
 import AllegroExporter from './exporters/allegroExporter'
 
 Promise.resolve().then(async () => {

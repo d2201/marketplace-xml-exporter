@@ -8,7 +8,7 @@ export default abstract class Exporter {
   private xml: builder.XMLDocumentCB
 
   constructor() {
-    this.fileStream = fs.createWriteStream('marketplace.xml')
+    this.fileStream = fs.createWriteStream(global.config.exporter.filePath)
 
     this.xml = builder
       .begin((chunk) => {
