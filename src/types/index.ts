@@ -8,7 +8,7 @@ export type XmlItem = {
   additionalData?: object // TODO expand it
   categoryId: string
   attributes: Attribute[]
-  imageUrls: string[] // first is the main image
+  images: Array<{ url: string }>
 }
 
 export type XmlExport = {
