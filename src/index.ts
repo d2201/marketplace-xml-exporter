@@ -1,7 +1,7 @@
-import AllegroSDK from './exporters/AllegroSDK'
+import AllegroSDK from './sdk/AllegroSDK'
+import logger from './logger'
+import AllegroExporter from './exporters/allegroExporter'
 
 Promise.resolve().then(async () => {
-  const sdk = new AllegroSDK()
-
-  sdk.getOfferById()
+  await new AllegroExporter().run()
 })
