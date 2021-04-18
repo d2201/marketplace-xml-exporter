@@ -1,5 +1,3 @@
-import AllegroSDK from './sdk/AllegroSDK'
-import logger from './logger'
 import AllegroExporter from './exporters/allegroExporter'
 
 Promise.resolve().then(async () => {

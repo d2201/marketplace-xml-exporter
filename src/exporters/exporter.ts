@@ -24,9 +24,7 @@ export default abstract class Exporter {
    * Recursive digger so that I can feed any object and it will create XML object from it :)
    */
   private digItem(obj: Record<string, any>) {
-    for (const key in obj) {
-      const value = obj[key]
-
+    for (const [key, value] of Object.entries(obj)) {
       this.xml.element(key)
 
       if (Array.isArray(value)) {
