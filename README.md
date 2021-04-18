@@ -28,16 +28,7 @@ That way you don't need to install anything.
 
 Run `yarn start` - the script will trigger `build` and will run the import.
 
-## Roadmap
-
-Things that will be done
-
-- [ ] Failure takeover - if export crashes at any moment the tool should be able to pick up rest of the work.
-- [ ] README.md section on setting up for Allegro
-- [ ] Write tests
-- [ ] Expand AllegroSDK for methods with variant sets
-- [ ] Add more configuration to logging
-- [ ] Progress logging
+## [Roadmap](https://github.com/d2201/marketplace-xml-exporter/issues?q=is%3Aissue+is%3Aopen+label%3Aroadmap)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
