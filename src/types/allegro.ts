@@ -33,6 +33,16 @@ export type Offer = {
   updatedAt: string
 }
 
+export type OfferListingResponse = {
+  offers: OfferListing[]
+  count: number
+  totalCount: number
+}
+
+type OfferListing = {
+  id: string // TODO fast fetching for small (price/stock) XML exports
+}
+
 type TecdocSpecification = {
   id: string
   items?: Array<{ name: string; values: string[] }>

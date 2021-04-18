@@ -70,7 +70,7 @@
 
 "@sdk/base@d2201/api-wrapper":
   version "1.0.0"
-  resolved "https://codeload.github.com/d2201/api-wrapper/tar.gz/7ed0a80324192d8f816edd57c7e7ae74b88f5237"
+  resolved "https://codeload.github.com/d2201/api-wrapper/tar.gz/ea65c51209273eb5134a99ef3add7fe7c5d13534"
   dependencies:
     axios "^0.21.1"
     typescript "^4.2.4"

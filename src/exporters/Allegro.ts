@@ -62,6 +62,7 @@ export default class Allegro extends ApiBase {
     this.authorizationHeaders = {
       Authorization: `Bearer ${token.access_token}`,
     }
+    this.isAuthorized = true
   }
 
   private saveRefreshTokenInFile(refreshToken: string) {
@@ -125,7 +126,7 @@ export default class Allegro extends ApiBase {
 
       return result
     } catch (e) {
-      // TODO
+      // TODO log it
     }
   }
 
@@ -148,7 +149,7 @@ export default class Allegro extends ApiBase {
 
       return result
     } catch (e) {
-      // TODO
+      // TODO log it
     }
   }
 }
