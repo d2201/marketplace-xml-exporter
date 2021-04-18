@@ -39,7 +39,7 @@ export default class Allegro extends ApiBase {
 
     this.defaultHeaders = {
       'Content-Type': 'application/vnd.allegro.public.v1+json',
-      'Accept': 'application/vnd.allegro.public.v1+json',
+      Accept: 'application/vnd.allegro.public.v1+json',
     }
     this.config = config
     this.clientId = config.allegro.clientId
@@ -164,8 +164,8 @@ export default class Allegro extends ApiBase {
         requireAuthorization: false,
         data: params,
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
       })
 
       return result
