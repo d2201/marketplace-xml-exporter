@@ -97,6 +97,7 @@ export default class Allegro extends ApiBase {
       },
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
+        Accept: 'application/json',
       },
       data: params,
       requireAuthorization: false,
