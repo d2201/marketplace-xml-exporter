@@ -1,13 +1,11 @@
 {
   "name": "marketplace-xml-exporter",
   "version": "1.0.0",
-  "description": "Tool for exporting data from marketplaces to .xml",
+  "description": "Tool for exporting data from marketplaces to .xml ",
   "dependencies": {
     "@sdk/base": "d2201/api-wrapper",
-    "@types/node-expat": "^2.3.1",
     "axios": "^0.21.1",
     "ini": "^2.0.0",
-    "node-expat": "^2.4.0",
     "typescript": "^4.2.4",
     "winston": "^3.3.3",
     "xml": "^1.0.1",
@@ -15,9 +13,12 @@
   },
   "scripts": {
     "dev": "ts-node-dev src/index",
+    "start": "yarn build && node build/index",
     "build": "tsc",
     "prettify": "prettier -l --config .prettierrc --write \"src/**/*.{ts,tsx,js,json}\" && yarn lint:fix",
-    "lint:fix": "eslint --ext .ts,.tsx --fix ."
+    "lint:fix": "eslint --ext .ts,.tsx --fix .",
+    "compile:unix": "yarn build && nexe build/index.js -o bin/tool",
+    "compile:windows": "yarn build && nexe build/index.js -o bin/tool.exe"
   },
   "main": "index.js",
   "author": "d2201",
@@ -34,6 +35,7 @@
     "eslint-config-prettier": "^8.2.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.4.0",
+    "nexe": "^4.0.0-beta.18",
     "prettier": "^2.2.1",
     "ts-node-dev": "^1.1.6"
   }
