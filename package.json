@@ -1,7 +1,7 @@
 {
   "name": "marketplace-xml-exporter",
   "version": "1.0.0",
-  "description": "Tool for exporting data from marketplaces to .xml",
+  "description": "Tool for exporting data from marketplaces to .xml ",
   "dependencies": {
     "@sdk/base": "d2201/api-wrapper",
     "axios": "^0.21.1",
