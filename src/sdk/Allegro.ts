@@ -23,7 +23,7 @@ export default class Allegro extends ApiBase {
   private config: typeof global.config
 
   constructor() {
-    const {config} = global
+    const { config } = global
 
     super({
       requestsRateLimit: +config.allegro.rateLimit,
@@ -48,7 +48,7 @@ export default class Allegro extends ApiBase {
     this.authUrl = config.allegro.authorizationUrl
   }
 
-  protected async authorize() {
+  async authorize() {
     logger.debug('Authorization step')
 
     let token: TokenResponse | undefined
@@ -86,6 +86,7 @@ export default class Allegro extends ApiBase {
     const params = new URLSearchParams()
 
     params.append('client_id', this.clientId)
+    params.append('scope', 'allegro:api:sale:offers:read')
 
     const result = await this.request<CodeAuthorizationResponse>({
       path: '/auth/oauth/device',
@@ -103,7 +104,7 @@ export default class Allegro extends ApiBase {
       requireAuthorization: false,
     })
 
-    logger.warn(`Authorize app by going to this link: ${result.verification_uri_complete}`)
+    logger.info(`Authorize app by going to this link: ${result.verification_uri_complete}`)
 
     let token: TokenResponse | undefined
 
