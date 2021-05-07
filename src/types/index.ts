@@ -2,13 +2,16 @@ import { Description } from './allegro'
 
 export type XmlItem = {
   id: string
+  name: string
   price: number // in PLN * 100
   stock: number
   description: Description
+  externalId?: string
   additionalData?: object // TODO expand it
-  categoryId: string
+  categoryId?: string
   attributes: Attribute[]
   images: Array<{ url: string }>
+  delivery: { unit: 'hours' | 'days'; amount: number }
 }
 
 export type XmlExport = {

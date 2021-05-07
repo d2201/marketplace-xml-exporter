@@ -1,6 +1,6 @@
 import './loadConfig'
-import Allegro from './sdk/Allegro'
+import AllegroExporter from './exporters/allegroExporter'
 
 Promise.resolve().then(async () => {
-  await new Allegro().authorize()
+  await new AllegroExporter().run()
 })

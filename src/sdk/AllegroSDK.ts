@@ -23,13 +23,15 @@ export default class AllegroSDK extends Allegro {
    * @usage `for await (const offer of findAllOffers()) { ...code }`
    */
   async *findAllOffers(): AsyncIterableIterator<OfferListing> {
-    const offset = 0
+    let offset = 0
 
     // maximum offset + limit is 10 mln
     while (offset <= 9_999_000) {
       const result = await this.getOffers(offset)
 
       yield* result.offers
+
+      offset += result.offers.length
 
       if (result.offers.length < OFFERS_LIMIT) {
         return

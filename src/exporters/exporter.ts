@@ -1,6 +1,7 @@
 import fs from 'fs'
 import builder from 'xmlbuilder'
 import { XmlItem } from '../types'
+import omitEmpty from '../helpers/omitEmpty'
 
 export default abstract class Exporter {
   private fileStream: fs.WriteStream
@@ -84,7 +85,7 @@ export default abstract class Exporter {
   protected writeItem(item: XmlItem): void {
     this.xml.element('item')
 
-    this.digItem(item)
+    this.digItem(omitEmpty(item))
 
     this.xml.up()
   }

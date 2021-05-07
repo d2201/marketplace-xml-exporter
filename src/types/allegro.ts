@@ -5,12 +5,12 @@ export type Offer = {
   additionalServices?: JustId
   afterSaleServices?: AfterSaleServices
   attachments?: Array<JustId>
-  category: JustId
+  category?: JustId
   compatibilityList?: CompatibilityList
   contact: JustId
   createdAt: string
   customParameters?: CustomParameter[]
-  delivery: Delivery
+  delivery?: Delivery
   description: Description
   discounts?: {
     wholesalePriceList: JustId
