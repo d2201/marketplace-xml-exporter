@@ -1,6 +1,6 @@
 node_modules
 build
 config.ini
-marketplace.xml
+*.xml
 yarn-error.log
 bin
