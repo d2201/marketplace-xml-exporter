@@ -2,6 +2,7 @@ import Exporter from './exporter'
 import AllegroSDK from '../sdk/AllegroSDK'
 import logger from '../logger'
 import parseHandlingTime from '../helpers/parseHandlingTime'
+import runConcurrently from '../helpers/runConcurrently'
 
 export default class AllegroExporter extends Exporter {
   async run() {
@@ -13,11 +14,11 @@ export default class AllegroExporter extends Exporter {
 
     let processed = 0
 
-    for await (const { id } of allegro.findAllOffers()) {
+    await runConcurrently(allegro.findAllOffers(), 50, async ({ id }) => {
       const offer = await allegro.getOfferById(id)
 
       if (!offer) {
-        continue
+        return
       }
 
       this.writeItem({
@@ -38,7 +39,7 @@ export default class AllegroExporter extends Exporter {
       if (processed % 50 === 0) {
         logger.info(`[${processed}/${totalCount}] Batch processed`)
       }
-    }
+    })
 
     logger.info(`[${processed}/${totalCount}] Exported fully...`)
 

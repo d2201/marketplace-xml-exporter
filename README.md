@@ -21,10 +21,12 @@ That way you don't need to install anything.
 
 ## Requirements
 
-- `Node v12.14.0+`
+- `Node v14.15.1+`
 - `yarn`
 
 ## Usage
+
+Install packages with `yarn`
 
 Run `yarn start` - the script will trigger `build` and will run the import.
 
