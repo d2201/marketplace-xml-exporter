@@ -30,6 +30,13 @@ Install packages with `yarn`
 
 Run `yarn start` - the script will trigger `build` and will run the import.
 
+## Generating Allegro application
+
+- Go to https://apps.developer.allegro.pl/
+- Click `Zarejestruj nową aplikację`
+  - Application type **must be** with `grant-type: device_code`
+- When created update the `config.ini` file with creating api keys.
+
 ## [Roadmap](https://github.com/d2201/marketplace-xml-exporter/issues?q=is%3Aissue+is%3Aopen+label%3Aroadmap)
 
 ## Contributing
