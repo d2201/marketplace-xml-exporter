@@ -7,10 +7,7 @@ import logger from '../logger'
 
 const ONE_SECOND = 1000
 
-const SCOPES = [
-  'allegro:api:sale:offers:read',
-  'allegro:api:sale:settings:read'
-].join(' ')
+const SCOPES = ['allegro:api:sale:offers:read', 'allegro:api:sale:settings:read'].join(' ')
 
 const sleep = promisify(setTimeout)
 
