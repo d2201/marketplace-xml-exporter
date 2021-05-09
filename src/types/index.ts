@@ -12,6 +12,20 @@ export type XmlItem = {
   attributes: Attribute[]
   images: Array<{ url: string }>
   delivery: { unit: 'hours' | 'days'; amount: number }
+  shippingRateId?: string
+}
+
+export type XmlVariantSet = {
+  id: string
+  name: string
+  productIds: Array<string> // offer ids @ Allegro
+  useThumbnail: boolean // TODO support `offers having the same image should have identical colorPattern value`
+  parameterIds: Array<string>
+}
+
+export type XmlShippingRate = {
+  id: string
+  name: string
 }
 
 export type XmlExport = {

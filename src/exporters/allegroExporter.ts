@@ -1,14 +1,16 @@
 import Exporter from './exporter'
-import AllegroSDK from '../sdk/AllegroSDK'
+import allegro from '../sdk/AllegroSDK'
 import logger from '../logger'
 import parseHandlingTime from '../helpers/parseHandlingTime'
 import runConcurrently from '../helpers/runConcurrently'
 
 export default class AllegroExporter extends Exporter {
-  async run() {
-    logger.info('Starting exporter')
+  constructor() {
+    super('offers', 'offers.xml')
+  }
 
-    const allegro = new AllegroSDK()
+  async run() {
+    logger.info('Starting offers exporter')
 
     const { totalCount } = await allegro.getOffers(0)
 
@@ -17,7 +19,7 @@ export default class AllegroExporter extends Exporter {
     await runConcurrently(allegro.findAllOffers(), 50, async ({ id }) => {
       const offer = await allegro.getOfferById(id)
 
-      if (!offer) {
+      if (!offer || offer.publication.status !== 'ACTIVE') {
         return
       }
 
@@ -32,6 +34,7 @@ export default class AllegroExporter extends Exporter {
         attributes: offer.parameters,
         images: offer.images,
         delivery: parseHandlingTime(offer.delivery?.handlingTime),
+        shippingRateId: offer.delivery?.shippingRates.id,
       })
 
       processed += 1

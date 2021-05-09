@@ -7,7 +7,10 @@ import logger from '../logger'
 
 const ONE_SECOND = 1000
 
-// const SCOPES = ['allegro:api:sale:offers:read'].join('%20') TODO use it
+const SCOPES = [
+  'allegro:api:sale:offers:read',
+  'allegro:api:sale:settings:read'
+].join(' ')
 
 const sleep = promisify(setTimeout)
 
@@ -86,7 +89,7 @@ export default class Allegro extends ApiBase {
     const params = new URLSearchParams()
 
     params.append('client_id', this.clientId)
-    params.append('scope', 'allegro:api:sale:offers:read')
+    params.append('scope', SCOPES)
 
     const result = await this.request<CodeAuthorizationResponse>({
       path: '/auth/oauth/device',

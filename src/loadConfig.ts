@@ -23,7 +23,7 @@ type AllegroConfig = {
 }
 
 type ExporterConfig = {
-  filePath: string
+  directory: string
   progress: string
 }
 

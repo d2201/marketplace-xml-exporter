@@ -1,15 +1,16 @@
 import fs from 'fs'
 import builder from 'xmlbuilder'
+import path from 'path'
 import { XmlItem } from '../types'
 import omitEmpty from '../helpers/omitEmpty'
 
-export default abstract class Exporter {
+export default abstract class Exporter<Item extends object = XmlItem> {
   private fileStream: fs.WriteStream
 
   private xml: builder.XMLDocumentCB
 
-  constructor() {
-    this.fileStream = fs.createWriteStream(global.config.exporter.filePath)
+  constructor(exporterType: string, fileName: string) {
+    this.fileStream = fs.createWriteStream(path.join(global.config.exporter.directory, fileName))
 
     this.xml = builder
       .begin((chunk) => {
@@ -17,8 +18,13 @@ export default abstract class Exporter {
       })
       .dec()
       .element('root')
+      .element('type')
+      .cdata(exporterType)
+      .up()
       .element('items')
   }
+
+  abstract run(): Promise<void>
 
   /**
    * @description
@@ -80,9 +86,7 @@ export default abstract class Exporter {
     }
   }
 
-  abstract run(): Promise<void>
-
-  protected writeItem(item: XmlItem): void {
+  protected writeItem(item: Item): void {
     this.xml.element('item')
 
     this.digItem(omitEmpty(item))

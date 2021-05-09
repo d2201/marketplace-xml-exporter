@@ -152,3 +152,20 @@ type DescriptionImageItem = {
   type: 'IMAGE'
   url: string
 }
+
+export type ShippingRate = {
+  id: string
+  name: string
+}
+
+export type OfferVariantsResponse = {
+  count: number
+  offerVariants: Array<{ id: string; name: string }>
+}
+
+export type VariantSet = {
+  id: string
+  offers: Array<{ id: string; colorPattern?: string }>
+  name: string
+  parameters: Array<{ id: string | 'color/pattern' }>
+}
