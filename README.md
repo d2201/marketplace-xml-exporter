@@ -30,6 +30,15 @@ Install packages with `yarn`
 
 Run `yarn start` - the script will trigger `build` and will run the import.
 
+## Common Issues
+
+- Powershell throwing errors when trying to run
+
+Run:
+```
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
 ## Generating Allegro application
 
 - Go to https://apps.developer.allegro.pl/
