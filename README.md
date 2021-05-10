@@ -14,11 +14,6 @@ This step is required to begin working with the tool.
 In the `config.example.ini` file you should find what a perfect `config.ini` file should look like. <br/>
 On the initation `src/loadConfig.ts`, will try to fill default values from `config.example.ini`
 
-## Binaries
-
-In releases you can find a working binary for your operating system.
-That way you don't need to install anything.
-
 ## Requirements
 
 - `Node v14.15.1+`
@@ -29,6 +24,21 @@ That way you don't need to install anything.
 Install packages with `yarn`
 
 Run `yarn start` - the script will trigger `build` and will run the import.
+
+After importing all necessary `.xml` files will be exported to directory you specified in `config.ini` file (Field: `exporter.directory`).
+
+## Why tool requests certain access in APIs
+
+Detailed API endpoints used are in directory: `src/sdk`
+
+- Allegro
+  - `allegro:api:sale:offers:read`
+    - Fetching detailed offer specification (`price`, `name`, `id`, `description` ... etc)
+    - Fetching variant sets
+  - `allegro:api:sale:settings:read`
+    - Reading shipping rates names
+    - TODO exporting warranties/return policies
+    - TODO exporting whole shipping rates
 
 ## Common Issues
 
