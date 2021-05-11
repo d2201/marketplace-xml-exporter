@@ -19,7 +19,7 @@ export default class AllegroExporter extends Exporter {
     await runConcurrently(allegro.findAllOffers(), 50, async ({ id }) => {
       const offer = await allegro.getOfferById(id)
 
-      if (!offer || offer.publication.status !== 'ACTIVE') {
+      if (!offer || offer.publication.status === 'INACTIVE') {
         return
       }
 
