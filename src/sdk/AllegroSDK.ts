@@ -67,10 +67,12 @@ class AllegroSDK extends Allegro {
   }
 
   async *findAllVariantSets(): AsyncIterableIterator<VariantSet> {
-    const offset = 0
+    let offset = 0
 
     while (offset <= 9_950) {
       const result = await this.getVariantSets(offset)
+
+      offset += result.offerVariants.length
 
       for (const variant of result.offerVariants) {
         const detailedVariantSet = await this.getDetailedVariantSet(variant.id)
